@@ -1,5 +1,8 @@
 package contacts;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Contacts {
     private Person person;
     private String phoneNumber;
@@ -12,7 +15,7 @@ public class Contacts {
 
     public Contacts(Person person, String phoneNumber) {
         this.person = person;
-        this.phoneNumber = phoneNumber;
+        setPhoneNumber(phoneNumber);
     }
 
     public Person getPerson() {
@@ -28,6 +31,31 @@ public class Contacts {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        if (validatePhoneNumber(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+        } else {
+            this.phoneNumber = "[no number]";
+            System.out.println("Wrong number format!");
+        }
     }
+
+    private boolean validatePhoneNumber(String phoneNumber) {
+
+
+        // no group with brackets
+        String regex1 = "([+]?\\w?([\\s-]?\\w{2,})*)";
+
+        // the first group has brackets
+        String regex2 = "([+]?(\\(\\w+\\))([\\s-]\\w{2,})*)";
+
+        // the second group has brackets
+        String regex3 = "([+]?\\w+[\\s-]\\(\\w{2,}\\)([\\s-]\\w{2,})*)";
+
+        Pattern pattern = Pattern.compile(regex1 + "|" + regex2 + "|"+ regex3);
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        return matcher.matches();
+    }
+
+
 }
