@@ -1,15 +1,23 @@
 package contacts;
 
-public class Person {
+import java.time.LocalDate;
+
+public class Person extends ContactDetails {
     private String firstName;
     private String lastName;
+    private Character gender;
+    private LocalDate dateOfBirth;
 
+
+    //Todo add gender and birthday
     public Person() {
+        super("",true);
         this.firstName = "";
         this.lastName = "";
     }
 
-    public Person(String firstName, String lastName) {
+    public Person(String firstName, String lastName,String phoneNumber) {
+        super(phoneNumber,true);
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -29,4 +37,13 @@ public class Person {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getPhoneNumber(){
+        return super.phoneNumber;
+    }
+    public void setPhoneNumber(String number){
+        super.phoneNumber = number;
+    }
+
+
 }

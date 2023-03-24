@@ -5,17 +5,14 @@ import java.util.regex.Pattern;
 
 public class Contacts {
     private Person person;
-    private String phoneNumber;
-
 
     public Contacts() {
         this.person = new Person();
-        this.phoneNumber = "";
     }
 
-    public Contacts(Person person, String phoneNumber) {
+    public Contacts(Person person) {
         this.person = person;
-        setPhoneNumber(phoneNumber);
+        setPhoneNumber(person.getPhoneNumber());
     }
 
     public Person getPerson() {
@@ -26,15 +23,11 @@ public class Contacts {
         this.person = person;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public void setPhoneNumber(String phoneNumber) {
         if (validatePhoneNumber(phoneNumber)) {
-            this.phoneNumber = phoneNumber;
+            this.person.setPhoneNumber(phoneNumber);
         } else {
-            this.phoneNumber = "[no number]";
+            this.person.setPhoneNumber("[no number]");
             System.out.println("Wrong number format!");
         }
     }

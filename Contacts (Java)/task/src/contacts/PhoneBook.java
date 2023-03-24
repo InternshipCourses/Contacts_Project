@@ -4,24 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhoneBook {
-    private static List<Contacts> phoneBook;
+    private static List<ContactDetails> phoneBook;
 
     static {
         phoneBook = new ArrayList<>();
     }
 
 
-
     public PhoneBook() {
 
     }
-    public PhoneBook(List<Contacts> phonebook) {
-        phoneBook = phonebook;
+    public PhoneBook(List<ContactDetails> newPhonebook) {
+        phoneBook = newPhonebook;
     }
 
     public boolean hasNumber(int index){
         if (!phoneBook.isEmpty()){
-           if (!phoneBook.get(index).getPhoneNumber().equals("[no number]")) {
+           if (!phoneBook.get(index).getPerson().getPhoneNumber().equals("[no number]")) {
                return true;
            }
         }
@@ -30,11 +29,13 @@ public class PhoneBook {
     public void listContact() {
         if (phoneBook.isEmpty()) {
             System.out.println("The Phone Book has 0 records.");
+
         } else {
+            System.out.println( phoneBook.get(0).getClass());
             int count = 1;
             for (Contacts contact : phoneBook) {
                 System.out.println(count + ". " + contact.getPerson().getFirstName() + " " +
-                contact.getPerson().getLastName() + ", " +contact.getPhoneNumber());
+                contact.getPerson().getLastName() + ", " +contact.getPerson().getPhoneNumber());
                 count++;
             }
         }
@@ -42,11 +43,13 @@ public class PhoneBook {
 
     public void editContactFirstname(int index, String firstName){
         String lastName = phoneBook.get(index).getPerson().getLastName();
-        phoneBook.get(index).setPerson(new Person(firstName, lastName));
+        String number = phoneBook.get(index).getPerson().getPhoneNumber();
+        phoneBook.get(index).setPerson(new Person(firstName, lastName,number));
     }
     public void editContactLastname(int index, String lastName){
         String firstName = phoneBook.get(index).getPerson().getFirstName();
-        phoneBook.get(index).setPerson(new Person(firstName, lastName));
+        String number = phoneBook.get(index).getPerson().getPhoneNumber();
+        phoneBook.get(index).setPerson(new Person(firstName, lastName,number));
     }
      public void editContactPhoneNumber(int index, String phoneNumber){
 

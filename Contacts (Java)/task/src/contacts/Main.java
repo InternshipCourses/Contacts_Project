@@ -40,7 +40,7 @@ public class Main {
         var lastName = scanner.nextLine();
         System.out.println("Enter the number:");
         var phoneNumber = scanner.nextLine();
-        phoneBook.saveNewContact(new Contacts(new Person(firstName,lastName),phoneNumber));
+        phoneBook.saveNewContact(new Contacts(new Person(firstName,lastName,phoneNumber)));
     }
 
     private static String editContactInformation(Scanner scanner, String option, PhoneBook phoneBook) {
