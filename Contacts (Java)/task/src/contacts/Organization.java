@@ -4,7 +4,6 @@ public class Organization extends ContactDetails{
     private String organizationName;
     private  String address;
 
-    // Todo If there is an error add primary
     public Organization(String name,String organizationAddress , String phoneNumber) {
         super(phoneNumber,false);
         this.address = organizationAddress;
@@ -15,22 +14,23 @@ public class Organization extends ContactDetails{
         return organizationName;
     }
 
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
+    public void setOrganizationName(String newOrganizationName) {
+        this.organizationName = newOrganizationName;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(String newAddress) {
+        this.address = newAddress;
     }
-
+    @Override
     public String getPhoneNumber(){
         return super.phoneNumber;
     }
 
+    @Override
     public void setPhoneNumber(String number){
         super.phoneNumber = number;
     }
