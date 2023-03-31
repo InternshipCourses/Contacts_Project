@@ -1,14 +1,20 @@
 package contacts;
 
+import contacts.contactDetail.ContactDetails;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class PhoneBook {
+public class PhoneBook implements Serializable {
     private static List<ContactDetails> phoneBook;
 
     static {
         phoneBook = new ArrayList<>();
     }
+    private static final long serialVersionUID = 7L;
 
     public PhoneBook() {
 
@@ -17,105 +23,57 @@ public class PhoneBook {
         phoneBook = newPhonebook;
     }
 
+    public  List<ContactDetails> getPhoneBook() {
+        return this.phoneBook;
+    }
+
+    public void setPhoneBook(List<ContactDetails> newPhoneBook) {
+       this.phoneBook = newPhoneBook;
+    }
+
+    public void addContactToPhoneBook(List<ContactDetails> newPhoneBook){
+        phoneBook.addAll(newPhoneBook);
+    }
+
+    public void updatePhoneBookContact(ContactDetails updatedContact) {
+        phoneBook.set(phoneBook.indexOf(updatedContact),updatedContact);
+    }
+
     public boolean hasNumber(int index){
         return !phoneBook.isEmpty() &&
                 !phoneBook.get(index).getPhoneNumber().equals("[no number]");
     }
+
     public void listContact() {
         if (phoneBook.isEmpty()) {
             System.out.println("The Phone Book has 0 records.");
         } else {
-            int count = 1;
-            for (ContactDetails contact : phoneBook) {
-                if (Boolean.TRUE.equals(contact.getIsPerson())) {
-                    System.out.println(displayUserInfo(count,(Person) contact));
-                } else {
-                    System.out.println(displayOrganizationInfo(count, (Organization) contact));
-                }
-                count++;
-            }
+            phoneBook.forEach(item -> System.out.printf("%d. %s %n",phoneBook.indexOf(item) + 1,item.showBasicInformation()));
         }
     }
 
-    private String displayUserInfo(int count, Person person){
-        return String.format("%s. %s %s",count,person.getFirstName(),person.getLastName());
+    public void removeContact(ContactDetails selectedContact){
+        phoneBook.remove(phoneBook.indexOf(selectedContact));
     }
-    private String displayOrganizationInfo(int count, Organization organization){
-        return String.format("%s. %s",count,organization.getOrganizationName());
-    }
-
-    public void contactInformation(int index){
-        String result= "";
-        if (Boolean.TRUE.equals(phoneBook.get(index).getIsPerson())) {
-            Person person = (Person) phoneBook.get(index);
-            result = String.format("""
-                        Name: %s
-                        Surname: %s
-                        Birth date: %s
-                        Gender: %s
-                        Number: %s
-                        Time created: %s
-                        Time last edit: %s""",person.getFirstName(),person.getLastName(),
-                    person.getDateOfBirth(), person.getGender(),person.getPhoneNumber(),
-                    person.getTimeCreated(),person.getTimeLastEdit());
-        }else {
-            Organization organization = (Organization) phoneBook.get(index);
-            result = String.format("""
-                        Organization name: %s
-                        Address: %s
-                        Number: %s
-                        Time created: %s
-                        Time last edit: %s""",organization.getOrganizationName(),
-                    organization.getAddress(), organization.getPhoneNumber(),
-                    organization.getTimeCreated(),organization.getTimeLastEdit());
-        }
-        System.out.println(result);
-    }
-
-    public void editContactFirstname(int index, String firstName){
-        Person contact = (Person) phoneBook.get(index);
-        contact.setFirstName(firstName);
-        phoneBook.set(index,contact);
-    }
-
-    public void editContactLastname(int index, String lastName){
-        Person tempPerson = (Person) phoneBook.get(index);
-        tempPerson.setLastName(lastName);
-        phoneBook.set(index,tempPerson);
-    }
-    public void editContactGender(int index, String gender){
-        Person tempPerson = (Person) phoneBook.get(index);
-        tempPerson.setGender(gender);
-        phoneBook.set(index,tempPerson);
-    }
-
-    public void editContactBirthday(int index, String birthday){
-        Person tempPerson = (Person) phoneBook.get(index);
-        tempPerson.setDateOfBirth(birthday);
-        phoneBook.set(index,tempPerson);
-    }
-
-    public void editOrganizationName(int index, String newName){
-        Organization tempOrganization = (Organization) phoneBook.get(index);
-        tempOrganization.setOrganizationName(newName);
-        phoneBook.set(index,tempOrganization);
-    }
-
-    public void editOrganizationAddress(int index, String newAddress){
-        Organization tempOrganization = (Organization) phoneBook.get(index);
-        tempOrganization.setAddress(newAddress);
-        phoneBook.set(index,tempOrganization);
-    }
-
-     public void editContactPhoneNumber(int index, String phoneNumber){
-        phoneBook.get(index).setPhoneNumber(phoneNumber);
-     }
 
     public void saveNewContact(ContactDetails contacts){
-       phoneBook.add(contacts);
-       System.out.println("The record added.");
+       if (contacts != null) {
+           phoneBook.add(contacts);
+           System.out.println("The record added.");
+       }
    }
 
+   public List<ContactDetails> searchForContact(String searchTerm){
+       Pattern pattern = Pattern.compile("\\w*" + searchTerm + "\\w*",Pattern.CASE_INSENSITIVE);
+       List<ContactDetails> searchList = new ArrayList<>();
+        for (ContactDetails checkedContact: phoneBook) {
+            Matcher matcher = pattern.matcher(checkedContact.showContactInformation());
+            if (matcher.find()){
+               searchList.add(checkedContact);
+            }
+        }
+        return searchList;
+   }
 
    public void removeContact(int index) {
         if (!phoneBook.isEmpty()) {
@@ -130,7 +88,7 @@ public class PhoneBook {
         return phoneBook.size();
    }
 
-   public boolean isPerson(int index){
+   /*public boolean isPerson(int index){
        return phoneBook.get(index).getIsPerson();
-   }
+   }*/
 }
