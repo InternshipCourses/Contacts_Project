@@ -27,13 +27,17 @@ public class Main {
 
     };*/
 
-    private static  String savedFileLocation = "";
+    public static  String savedFileLocation = "";
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         if (args.length > 0) {savedFileLocation = args[0];} // checking if a saved file location was passed when starting the app
         String option = "";
         final PhoneBook phoneBook = new PhoneBook();
         loadSavedContacts(phoneBook);
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
+
+
+
+
+        try (var reader = new InputOutputData(savedFileLocation)){
             do {
                 System.out.println("Enter action ( add, list, search, count, exit): ");
                 option = reader.readLine();
@@ -51,7 +55,7 @@ public class Main {
         }
     }
 
-    private static void listAllContacts(PhoneBook phoneBook, BufferedReader reader) throws IOException {
+    private static void listAllContacts(PhoneBook phoneBook, InputOutputData reader) throws IOException {
         if (phoneBook.countContact() > 0){
             phoneBook.listContact();
             System.out.println("[list] Enter action ([number], back):");
@@ -66,7 +70,7 @@ public class Main {
         }
     }
 
-    private static void searchForContacts(PhoneBook phoneBook, BufferedReader reader) throws IOException {
+    private static void searchForContacts(PhoneBook phoneBook, InputOutputData reader) throws IOException {
         System.out.println("Enter search query:");
         String option = "";
         do {
@@ -76,7 +80,7 @@ public class Main {
         } while (!(option.equals("back") || option.equals("menu")));
     }
 
-    private static String viewContacts(PhoneBook phoneBook, BufferedReader reader,
+    private static String viewContacts(PhoneBook phoneBook, InputOutputData reader,
                                        String option, List<ContactDetails> contactList) throws IOException {
         if (!contactList.isEmpty()){
             System.out.printf("Found %d results:%n", contactList.size());
@@ -98,7 +102,7 @@ public class Main {
         return option;
     }
 
-    private static String viewEditRemoveContactMenu(PhoneBook phoneBook, BufferedReader reader,
+    private static String viewEditRemoveContactMenu(PhoneBook phoneBook, InputOutputData reader,
                                                     ContactDetails selectedContact) throws IOException {
         System.out.println(selectedContact.showContactInformation() + "\n"); // display contact info
         String option ="";
@@ -147,7 +151,7 @@ public class Main {
         }
     }
 
-    private static void editContactInformation(PhoneBook phoneBook,ContactDetails contactDetails, BufferedReader reader) throws IOException {
+    private static void editContactInformation(PhoneBook phoneBook, ContactDetails contactDetails, InputOutputData reader) {
         contactDetails.showContactInformation();
         //pass contact detail to phoneBook class where the update values will be updated in the contact
         phoneBook.updatePhoneBookContact(contactDetails.editUserInformation(reader));

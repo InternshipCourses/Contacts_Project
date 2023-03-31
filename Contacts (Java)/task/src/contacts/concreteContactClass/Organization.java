@@ -1,5 +1,6 @@
 package contacts.concreteContactClass;
 
+import contacts.InputOutputData;
 import contacts.contactDetail.ContactDetails;
 
 import java.io.BufferedReader;
@@ -34,7 +35,7 @@ public class Organization extends ContactDetails {
 
 
     @Override
-    public ContactDetails addNewContact(BufferedReader reader) throws IOException {
+    public ContactDetails addNewContact(InputOutputData reader)  {
         System.out.println("Enter the organization name:");
         this.organizationName = reader.readLine();
         System.out.println("Enter the address:");
@@ -58,7 +59,7 @@ public class Organization extends ContactDetails {
     }
 
     @Override
-    public ContactDetails editUserInformation(BufferedReader reader) throws IOException {
+    public ContactDetails editUserInformation(InputOutputData reader) {
         System.out.println("Select a field (name,address,number):");
         switch (reader.readLine()){
             case "name" -> {

@@ -1,6 +1,7 @@
 package contacts.contactDetail;
 
-import java.io.BufferedReader;
+import contacts.InputOutputData;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -8,10 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class ContactDetails implements Serializable {
+    private static final long serialVersionUID = 7L;
     private String phoneNumber;
     private LocalDateTime timeCreated;
     private LocalDateTime timeLastEdit;
-    private static final long serialVersionUID = 7L;
 
     protected ContactDetails(String contactNumber) {
         this.phoneNumber = contactNumber;
@@ -61,12 +62,12 @@ public abstract class ContactDetails implements Serializable {
     }
 
     // todo remove the reader if able to read from console another way
-    public  abstract ContactDetails addNewContact(BufferedReader reader) throws IOException;
+    public  abstract ContactDetails addNewContact(InputOutputData reader);
 
 
     public abstract String showContactInformation();
     public abstract String showBasicInformation();
 
-    public abstract ContactDetails editUserInformation(BufferedReader reader) throws IOException;
+    public abstract ContactDetails editUserInformation(InputOutputData reader);
 
 }

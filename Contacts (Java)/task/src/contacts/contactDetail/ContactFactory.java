@@ -1,13 +1,11 @@
 package contacts.contactDetail;
 
+import contacts.InputOutputData;
 import contacts.concreteContactClass.Organization;
 import contacts.concreteContactClass.Person;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
 public class ContactFactory {
-    public static ContactDetails startContactFactory(BufferedReader reader) throws IOException {
+    public static ContactDetails startContactFactory(InputOutputData reader) {
         System.out.println("Enter the type (person, organization):");
         String op = reader.readLine();
         ContactDetails newContact = switch (op.trim()) {

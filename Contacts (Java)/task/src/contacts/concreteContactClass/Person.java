@@ -1,5 +1,6 @@
 package contacts.concreteContactClass;
 
+import contacts.InputOutputData;
 import contacts.contactDetail.ContactDetails;
 
 import java.io.BufferedReader;
@@ -9,11 +10,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Person extends ContactDetails  {
+    private static final  String DEFAULT_NO_DATA = "[no data]";
     private String firstName;
     private String lastName;
     private String gender;
     private String dateOfBirth;
-    private static final  String DEFAULT_NO_DATA = "[no data]";
 
     public Person() {
         super("");
@@ -97,7 +98,7 @@ public class Person extends ContactDetails  {
     }
 
     @Override
-    public ContactDetails addNewContact(BufferedReader reader) throws IOException {
+    public ContactDetails addNewContact(InputOutputData reader) {
             System.out.println("Enter the name of the person:");
             this.firstName = reader.readLine();
             System.out.println("Enter the surname of the person:");
@@ -112,7 +113,7 @@ public class Person extends ContactDetails  {
     }
 
     @Override
-    public ContactDetails editUserInformation(BufferedReader reader) throws IOException {
+    public ContactDetails editUserInformation(InputOutputData reader) {
         System.out.println("Select a field (name, surname, number,gender,birth day):");
         switch (reader.readLine()) {
             case "name" -> {
