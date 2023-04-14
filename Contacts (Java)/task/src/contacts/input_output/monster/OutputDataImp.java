@@ -1,9 +1,8 @@
-package contacts;
+package contacts.input_output.monster;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class OutputDataImp<T> implements OutputData<T> {
 
@@ -13,9 +12,14 @@ public class OutputDataImp<T> implements OutputData<T> {
         this.consumer = consumer;
         this.closeable = closeable;
     }
-    @Override
+    /*@Override
     public void put(T obj) {
         this.consumer.accept(obj);
+    }*/
+
+    @Override
+    public void accept(Object o) {
+        this.consumer.accept((T) o);
     }
 
     @Override

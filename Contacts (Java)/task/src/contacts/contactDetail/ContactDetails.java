@@ -1,8 +1,7 @@
 package contacts.contactDetail;
 
-import contacts.InputOutputData;
+import contacts.input_output.impl.DataInputOutput;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.regex.Matcher;
@@ -48,26 +47,20 @@ public abstract class ContactDetails implements Serializable {
     public LocalDateTime getTimeCreated() {
         return timeCreated;
     }
-
     public void setTimeCreated(LocalDateTime newTime) {
         this.timeCreated = newTime;
     }
-
     public LocalDateTime getTimeLastEdit() {
         return timeLastEdit;
     }
-
     public void setTimeLastEdit(LocalDateTime newEditedTime) {
         this.timeLastEdit = newEditedTime;
     }
 
     // todo remove the reader if able to read from console another way
-    public  abstract ContactDetails addNewContact(InputOutputData reader);
-
-
+    public  abstract ContactDetails addNewContact(DataInputOutput reader);
     public abstract String showContactInformation();
     public abstract String showBasicInformation();
-
-    public abstract ContactDetails editUserInformation(InputOutputData reader);
+    public abstract ContactDetails editUserInformation(DataInputOutput reader);
 
 }

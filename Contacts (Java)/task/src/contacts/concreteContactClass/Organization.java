@@ -1,12 +1,7 @@
 package contacts.concreteContactClass;
 
-import contacts.InputOutputData;
 import contacts.contactDetail.ContactDetails;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-
-
+import contacts.input_output.impl.DataInputOutput;
 public class Organization extends ContactDetails {
     private String organizationName;
     private  String address;
@@ -35,12 +30,12 @@ public class Organization extends ContactDetails {
 
 
     @Override
-    public ContactDetails addNewContact(InputOutputData reader)  {
-        System.out.println("Enter the organization name:");
+    public ContactDetails addNewContact(DataInputOutput reader)  {
+        reader.printToConsole("Enter the organization name:");
         this.organizationName = reader.readLine();
-        System.out.println("Enter the address:");
+        reader.printToConsole("Enter the address:");
         this.address = reader.readLine();
-        System.out.println("Enter the number:");
+        reader.printToConsole("Enter the number:");
         super.setPhoneNumber(reader.readLine());
          return this;
     }
@@ -59,22 +54,22 @@ public class Organization extends ContactDetails {
     }
 
     @Override
-    public ContactDetails editUserInformation(InputOutputData reader) {
-        System.out.println("Select a field (name,address,number):");
+    public ContactDetails editUserInformation(DataInputOutput reader) {
+        reader.printToConsole("Select a field (name,address,number):");
         switch (reader.readLine()){
             case "name" -> {
-                System.out.println("Enter name");
+                reader.printToConsole("Enter name");
                 this.organizationName  = reader.readLine();
             }
             case "address" -> {
-                System.out.println("Enter address");
+                reader.printToConsole("Enter address");
                 this.address = reader.readLine();
             }
             case "number" -> {
-                System.out.println("Enter phone number");
+                reader.printToConsole("Enter phone number");
                 setPhoneNumber(reader.readLine());
             }
-            default -> System.out.println("invalid Option");
+            default -> reader.printToConsole("invalid Option");
         }
         return this;
     }

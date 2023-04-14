@@ -1,4 +1,4 @@
-package contacts;
+package contacts.input_output.monster;
 
 import java.io.*;
 import java.util.function.Supplier;

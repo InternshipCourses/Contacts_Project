@@ -1,10 +1,8 @@
 package contacts.concreteContactClass;
 
-import contacts.InputOutputData;
 import contacts.contactDetail.ContactDetails;
+import contacts.input_output.impl.DataInputOutput;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -44,12 +42,7 @@ public class Person extends ContactDetails  {
     }
 
     public void setGender(String gender) {
-        if (validateGender(gender)) {
-            this.gender = gender;
-        }else {
-            this.gender = DEFAULT_NO_DATA;
-        }
-
+        this.gender = (validateGender(gender))? gender : DEFAULT_NO_DATA;
     }
 
     public String getDateOfBirth() {
@@ -57,12 +50,7 @@ public class Person extends ContactDetails  {
     }
 
     public void setDateOfBirth(String dateOfBirth) {
-        if (validateBirthDay(dateOfBirth)) {
-            this.dateOfBirth = dateOfBirth;
-        }else {
-            System.out.println("Bad birth date!");
-            this.dateOfBirth = DEFAULT_NO_DATA;
-        }
+        this.dateOfBirth = (validateBirthDay(dateOfBirth))? dateOfBirth : DEFAULT_NO_DATA;
     }
 
     public static boolean validateGender(String gender) {
@@ -98,7 +86,7 @@ public class Person extends ContactDetails  {
     }
 
     @Override
-    public ContactDetails addNewContact(InputOutputData reader) {
+    public ContactDetails addNewContact(DataInputOutput reader) {
             System.out.println("Enter the name of the person:");
             this.firstName = reader.readLine();
             System.out.println("Enter the surname of the person:");
@@ -113,7 +101,7 @@ public class Person extends ContactDetails  {
     }
 
     @Override
-    public ContactDetails editUserInformation(InputOutputData reader) {
+    public ContactDetails editUserInformation(DataInputOutput reader) {
         System.out.println("Select a field (name, surname, number,gender,birth day):");
         switch (reader.readLine()) {
             case "name" -> {

@@ -5,68 +5,59 @@ import contacts.contactDetail.ContactDetails;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PhoneBook implements Serializable {
-    private static List<ContactDetails> phoneBook;
+    private static final  List<ContactDetails> PHONE_BOOK;
+    private final transient Logger logger = Logger.getLogger(PhoneBook.class.getName());
 
     static {
-        phoneBook = new ArrayList<>();
+        PHONE_BOOK = new ArrayList<>();
     }
+    @Serial
     private static final long serialVersionUID = 7L;
 
-    public PhoneBook() {
-
-    }
-    public PhoneBook(List<ContactDetails> newPhonebook) {
-        phoneBook = newPhonebook;
-    }
 
     public  List<ContactDetails> getPhoneBook() {
-        return this.phoneBook;
+        return PHONE_BOOK;
     }
 
-    public void setPhoneBook(List<ContactDetails> newPhoneBook) {
-       this.phoneBook = newPhoneBook;
-    }
-
-    public void addContactToPhoneBook(List<ContactDetails> newPhoneBook){
-        phoneBook.addAll(newPhoneBook);
+    public void addContactToPhoneBook(List<? extends ContactDetails> newPhoneBook){
+        if (newPhoneBook == null) {
+            return;
+        }
+        PHONE_BOOK.addAll(newPhoneBook);
     }
 
     public void updatePhoneBookContact(ContactDetails updatedContact) {
-        phoneBook.set(phoneBook.indexOf(updatedContact),updatedContact);
-    }
-
-    public boolean hasNumber(int index){
-        return !phoneBook.isEmpty() &&
-                !phoneBook.get(index).getPhoneNumber().equals("[no number]");
+        PHONE_BOOK.set(PHONE_BOOK.indexOf(updatedContact),updatedContact);
     }
 
     public void listContact() {
-        if (phoneBook.isEmpty()) {
-            System.out.println("The Phone Book has 0 records.");
+        if (PHONE_BOOK.isEmpty()) {
+            logger.info("The Phone Book has 0 records.");
         } else {
-            phoneBook.forEach(item -> System.out.printf("%d. %s %n",phoneBook.indexOf(item) + 1,item.showBasicInformation()));
+            PHONE_BOOK.forEach(item -> logger.info(String.format("%d. %s %n", PHONE_BOOK.indexOf(item) + 1,item.showBasicInformation())));
         }
     }
 
     public void removeContact(ContactDetails selectedContact){
-        phoneBook.remove(phoneBook.indexOf(selectedContact));
+        PHONE_BOOK.remove(selectedContact);
     }
 
     public void saveNewContact(ContactDetails contacts){
        if (contacts != null) {
-           phoneBook.add(contacts);
-           System.out.println("The record added.");
+           PHONE_BOOK.add(contacts);
+           logger.info("The record added.");
        }
    }
 
    public List<ContactDetails> searchForContact(String searchTerm){
        Pattern pattern = Pattern.compile("\\w*" + searchTerm + "\\w*",Pattern.CASE_INSENSITIVE);
        List<ContactDetails> searchList = new ArrayList<>();
-        for (ContactDetails checkedContact: phoneBook) {
+        for (ContactDetails checkedContact: PHONE_BOOK) {
             Matcher matcher = pattern.matcher(checkedContact.showContactInformation());
             if (matcher.find()){
                searchList.add(checkedContact);
@@ -75,20 +66,7 @@ public class PhoneBook implements Serializable {
         return searchList;
    }
 
-   public void removeContact(int index) {
-        if (!phoneBook.isEmpty()) {
-            phoneBook.remove(index);
-            System.out.println("The record removed!");
-        } else {
-            System.out.println("No records to remove!");
-        }
-   }
-
    public int countContact() {
-        return phoneBook.size();
+        return PHONE_BOOK.size();
    }
-
-   /*public boolean isPerson(int index){
-       return phoneBook.get(index).getIsPerson();
-   }*/
 }
